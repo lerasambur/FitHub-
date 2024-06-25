@@ -1,0 +1,11 @@
+welcome.blade.php is the site home page with a description and the Log in and Registration buttons.
+auth/register.blade.php is the user registration form.
+auth/login.blade.php is the login form of the user.
+users/profile.blade.php is a user profile with the ability to add posts, photos, work with a calendar, and view videos.
+trainers/profile.blade.php is a coach profile with the ability to add videos, price management, and services.
+posts/index.blade.php - List of all posts.
+posts/create.blade.php is the form of creating a new post.
+videos/index.blade.php - a list of all videos.
+videos/create.blade.php is the form of creating a new video.
+chats/index.blade.php - a list of all user chats.
+chats/show.blade.php - message chat page.
