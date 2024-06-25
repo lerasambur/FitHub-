@@ -23,3 +23,216 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
+---------------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateTrainersTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('trainers', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('specialization');
+            $table->string('education');
+            $table->text('experience');
+            $table->text('description');
+            $table->string('photo')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('trainers');
+    }
+}
+--------------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePostsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->text('content');
+            $table->string('image')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('posts');
+    }
+}
+--------------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCommentsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id');
+            $table->text('content');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('comments');
+    }
+}
+-----------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateVideosTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('videos', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('trainer_id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('video_url');
+            $table->boolean('is_private')->default(false);
+            $table->timestamps();
+
+            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('videos');
+    }
+}
+----------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCalendarEntriesTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('calendar_entries', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->date('date');
+            $table->float('weight')->nullable();
+            $table->text('food')->nullable();
+            $table->integer('calories')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('calendar_entries');
+    }
+}
+-------------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePaymentsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('trainer_id');
+            $table->decimal('amount', 8, 2);
+            $table->string('status');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('payments');
+    }
+}
+-----------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateChatsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('chats', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user1_id');
+            $table->unsignedBigInteger('user2_id');
+            $table->timestamps();
+
+            $table->foreign('user1_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user2_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('chats');
+    }
+}
+----------------------------------------------------------------
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateMessagesTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('chat_id');
+            $table->unsignedBigInteger('user_id');
+            $table->text('message');
+            $table->timestamps();
+
+            $table->foreign('chat_id')->references('id')->on('chats')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('messages');
+    }
+}
+-------------------------------------------------------------
+php artisan migrate
