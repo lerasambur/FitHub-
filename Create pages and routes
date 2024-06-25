@@ -44,3 +44,29 @@ Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.crea
 Route::post('/chats', [ChatController::class, 'store'])->name('chats.store'); 
 Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show'); 
 Route::post('/chats/{chat}/message', [ChatController::class, 'sendMessage'])->name('chats.message'); 
+-----------------------------------------------------------------------------------------------------------
+Explanation of routes:
+GET '/'- site Home Page.
+GET '/Dashboard' - User profile after logon.
+GET '/register' - User registration form.
+POST '/register' - processing user registration data.
+GET '/login' - User Logon form.
+POST '/login' - processing user login.
+POST '/logout' - Logoff.
+GET '/trainer/Dashboard' - Coach Profile.
+GET '/trainer/register' - coach registration form.
+POST '/trainer/register' - processing coach registration data.
+POST '/Trainer/videos' - Coach download of video sessions.
+GET '/Trainer/videos/{video}' - View specific video by coach.
+POST '/Trainer/videos/{video}/Payment' - Update the status of the video fee.
+GET '/posts' - List of all posts.
+GET '/posts/create' - form for creating a new post.
+POST '/posts' - processing creation of new post.
+GET '/videos' - List of all videos.
+GET '/videos/create' - form to create a new video rendering.
+POST '/videos' - processing creation of new video rendering.
+GET '/chats' - List of all user chats.
+GET '/chats/create' - Create new chat form.
+POST '/chats' - processing new chat creation.
+GET '/chats/{chat}' - View specific chat.
+POST '/chats/{chat}/message' - Send message to chat.
