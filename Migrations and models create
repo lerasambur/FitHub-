@@ -1,0 +1,9 @@
+php artisan make:model User -m
+php artisan make:model Trainer -m
+php artisan make:model Post -m
+php artisan make:model Comment -m
+php artisan make:model Video -m
+php artisan make:model CalendarEntry -m
+php artisan make:model Payment -m
+php artisan make:model Chat -m
+php artisan make:model Message -m
