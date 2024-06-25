@@ -1,0 +1,309 @@
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Goal;
+use App\Models\CalendarEntry;
+use Auth;
+
+class UserController extends Controller
+{
+    public function index()
+    {
+        $user = Auth::user();
+        return view('users.profile', compact('user'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:user,trainer',
+            'goal' => 'required_if:role,user|string',
+            'weight' => 'required_if:role,user|numeric',
+            'height' => 'required_if:role,user|numeric',
+            'age' => 'required_if:role,user|integer',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+        ]);
+
+        if ($request->role === 'user') {
+            $goal = Goal::create([
+                'user_id' => $user->id,
+                'goal' => $request->goal,
+                'weight' => $request->weight,
+                'height' => $request->height,
+                'age' => $request->age,
+            ]);
+
+            $calendarEntry = CalendarEntry::create([
+                'user_id' => $user->id,
+                // Add more fields as needed
+            ]);
+
+            // Redirect to user dashboard or profile page
+            return redirect()->route('dashboard');
+        }
+
+        // Handle logic for trainer registration
+        // Redirect to trainer dashboard or profile page
+        return redirect()->route('trainer.dashboard');
+    }
+}
+--------------------------------------------------------------------
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Trainer;
+use App\Models\Video;
+use App\Models\Payment;
+use Auth;
+
+class TrainerController extends Controller
+{
+    public function index()
+    {
+        $trainer = Auth::user()->trainer;
+        return view('trainers.profile', compact('trainer'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:user,trainer',
+            'specialization' => 'required_if:role,trainer|string',
+            'education' => 'required_if:role,trainer|string',
+            'experience' => 'required_if:role,trainer|string',
+            'description' => 'required_if:role,trainer|string',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+        ]);
+
+        if ($request->role === 'trainer') {
+            $trainer = Trainer::create([
+                'user_id' => $user->id,
+                'specialization' => $request->specialization,
+                'education' => $request->education,
+                'experience' => $request->experience,
+                'description' => $request->description,
+                // Handle photo upload if needed
+            ]);
+
+            // Redirect to trainer dashboard or profile page
+            return redirect()->route('trainer.dashboard');
+        }
+
+        // Handle logic for user registration
+        // Redirect to user dashboard or profile page
+        return redirect()->route('dashboard');
+    }
+
+    public function storeVideo(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'video_url' => 'required|url',
+            'is_private' => 'boolean',
+        ]);
+
+        $video = new Video();
+        $video->trainer_id = Auth::id();
+        $video->title = $request->title;
+        $video->description = $request->description;
+        $video->video_url = $request->video_url;
+        $video->is_private = $request->has('is_private');
+
+        $video->save();
+
+        return redirect()->route('trainer.videos');
+    }
+
+    public function showVideo(Video $video)
+    {
+        // Logic to check if user has access to view video
+        // For example, if video is private, check if user has paid for it
+        return view('trainers.video', compact('video'));
+    }
+
+    public function updatePaymentStatus(Request $request, Video $video)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'status' => 'required|string',
+        ]);
+
+        // Example logic to update payment status for user and video
+        $payment = Payment::where('user_id', $request->user_id)
+                          ->where('video_id', $video->id)
+                          ->first();
+
+        if ($payment) {
+            $payment->status = $request->status;
+            $payment->save();
+        }
+
+        return redirect()->back();
+    }
+}
+--------------------------------------------------------------------------
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Post;
+use Auth;
+
+class PostController extends Controller
+{
+    public function index()
+    {
+        $posts = Post::latest()->get();
+        return view('posts.index', compact('posts'));
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $post = new Post();
+        $post->user_id = Auth::id();
+        $post->content = $request->content;
+
+        // Handle image upload if needed
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $post->image = $imagePath;
+        }
+
+        $post->save();
+
+        return redirect()->route('posts.index');
+    }
+}
+---------------------------------------------------------------------
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Video;
+use Auth;
+
+class VideoController extends Controller
+{
+    public function index()
+    {
+        $videos = Video::latest()->get();
+        return view('videos.index', compact('videos'));
+    }
+
+    public function create()
+    {
+        return view('videos.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'video_url' => 'required|url',
+            'is_private' => 'boolean',
+        ]);
+
+        $video = new Video();
+        $video->trainer_id = Auth::id();
+        $video->title = $request->title;
+        $video->description = $request->description;
+        $video->video_url = $request->video_url;
+        $video->is_private = $request->has('is_private');
+
+        $video->save();
+
+        return redirect()->route('videos.index');
+    }
+}
+------------------------------------------------------------
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Chat;
+use App\Models\Message;
+use Auth;
+
+class ChatController extends Controller
+{
+    public function index()
+    {
+        $chats = Chat::where('user1_id', Auth::id())
+                     ->orWhere('user2_id', Auth::id())
+                     ->get();
+        return view('chats.index', compact('chats'));
+    }
+
+    public function create()
+    {
+        return view('chats.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user2_id' => 'required|exists:users,id',
+        ]);
+
+        $chat = new Chat();
+        $chat->user1_id = Auth::id();
+        $chat->user2_id = $request->user2_id;
+
+        $chat->save();
+
+        return redirect()->route('chats.index');
+    }
+
+    public function show(Chat $chat)
+    {
+        $messages = Message::where('chat_id', $chat->id)->get();
+        return view('chats.show', compact('chat', 'messages'));
+    }
+
+    public function sendMessage(Request $request, Chat $chat)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $message = new Message();
+        $message->chat_id = $chat->id;
+        $message->user_id = Auth::id();
+        $message->message = $request->message;
+
+        $message->save();
+
+        return redirect()->route('chats.show', $chat->id);
+    }
+}
+------------------------------------------------------------------
