@@ -1,3 +1,4 @@
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\PostController;
@@ -9,22 +10,37 @@ Route::get('/', function () {
     return view('welcome'); 
 });
 
+
+Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard'); 
 Route::get('/register', function () {
     return view('auth.register'); 
 });
-
 Route::post('/register', [UserController::class, 'store']); 
-
 Route::get('/login', function () {
     return view('auth.login'); 
 });
-
 Route::post('/login', [UserController::class, 'login']); 
-
 Route::post('/logout', [UserController::class, 'logout'])->name('logout'); 
 
-Route::resource('posts', PostController::class);
+Route::get('/trainer/dashboard', [TrainerController::class, 'index'])->name('trainer.dashboard'); 
+Route::get('/trainer/register', function () {
+    return view('auth.trainer-register'); 
+});
+Route::post('/trainer/register', [TrainerController::class, 'store']); 
+Route::post('/trainer/videos', [TrainerController::class, 'storeVideo'])->name('trainer.videos'); 
+Route::get('/trainer/videos/{video}', [TrainerController::class, 'showVideo'])->name('trainer.videos.show'); 
+Route::post('/trainer/videos/{video}/payment', [TrainerController::class, 'updatePaymentStatus'])->name('trainer.videos.payment'); 
 
-Route::resource('videos', VideoController::class);
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index'); 
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create'); 
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store'); 
 
-Route::resource('chats', ChatController::class);
+Route::get('/videos', [VideoController::class, 'index'])->name('videos.index'); 
+Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create'); 
+Route::post('/videos', [VideoController::class, 'store'])->name('videos.store'); 
+
+Route::get('/chats', [ChatController::class, 'index'])->name('chats.index'); 
+Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.create'); 
+Route::post('/chats', [ChatController::class, 'store'])->name('chats.store'); 
+Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show'); 
+Route::post('/chats/{chat}/message', [ChatController::class, 'sendMessage'])->name('chats.message'); 
