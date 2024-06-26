@@ -1,0 +1,78 @@
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use App\Models\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+
+class RegisterController extends Controller
+{
+    use RegistersUsers;
+
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'string'],
+            'goal' => ['nullable', 'string'],
+            'weight' => ['nullable', 'numeric'],
+            'height' => ['nullable', 'numeric'],
+            'age' => ['nullable', 'numeric'],
+            'specialization' => ['nullable', 'string'],
+            'education' => ['nullable', 'string'],
+            'experience' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+    }
+
+    protected function create(array $data)
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'],
+            'role' => $data['role'],
+        ]);
+
+        if ($data['role'] === 'user') {
+            $user->goal()->create([
+                'goal' => $data['goal'],
+                'weight' => $data['weight'],
+                'height' => $data['height'],
+                'age' => $data['age'],
+            ]);
+        } else if ($data['role'] === 'trainer') {
+            $user->trainerProfile()->create([
+                'specialization' => $data['specialization'],
+                'education' => $data['education'],
+                'experience' => $data['experience'],
+                'description' => $data['description'],
+            ]);
+        }
+
+        return $user;
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if ($user->role === 'user') {
+            return redirect('/user/profile');
+        } elseif ($user->role === 'trainer') {
+            return redirect('/trainer/profile');
+        }
+
+        return redirect($this->redirectTo);
+    }
+}
