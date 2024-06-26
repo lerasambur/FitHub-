@@ -1,57 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="header">
-    <h1>FitHub</h1>
-</div>
-
-<div class="main">
-    <div class="container">
-        <h2>{{ $chat->title }}</h2>
-
-        <div class="messages">
-            @foreach($chat->messages as $message)
-                <p><strong>{{ $message->user->name }}:</strong> {{ $message->body }}</p>
-            @endforeach
-        </div>
-
-        <form action="{{ route('chats.messages.store', $chat->id) }}" method="POST">
-            @csrf
-            <textarea name="body" required></textarea>
-            <button type="submit" class="button">Send</button>
-        </form>
+<div class="container">
+    <h2>{{ $chat->title }}</h2>
+    <div class="messages">
+        @foreach($chat->messages as $message)
+            <p><strong>{{ $message->user->name }}:</strong> {{ $message->body }}</p>
+        @endforeach
     </div>
-</div>
-
-<div class="footer">
-    <p>&copy; 2024 FitHub. Все права защищены.</p>
+    <form action="{{ route('chats.messages.store', $chat->id) }}" method="POST">
+        @csrf
+        <textarea name="body" required></textarea>
+        <button type="submit" class="button">Send</button>
+    </form>
 </div>
 @endsection
 
 @section('styles')
 <style>
-    body {
-        background-color: #1c1c1c;
-        color: #d4af37;
-        font-family: Arial, sans-serif;
-    }
-    .header, .footer {
-        background-color: #3a3a3a;
-        padding: 20px;
-        text-align: center;
-    }
-    .main {
-        text-align: center;
-        padding: 50px;
-    }
-    .button {
-        background-color: #d4af37;
-        color: #1c1c1c;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 10px;
-    }
     .container {
         margin: auto;
         width: 80%;
@@ -78,3 +44,4 @@
     }
 </style>
 @endsection
+
