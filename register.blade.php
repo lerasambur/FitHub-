@@ -222,5 +222,41 @@
         document.getElementById('user-info').style.display = role === 'user' ? 'block' : 'none';
         document.getElementById('trainer-info').style.display = role === 'trainer' ? 'block' : 'none';
     });
-</
+</script>
+@endsection
+
+@section('styles')
+<style>
+    .header, .footer {
+        background-color: #3a3a3a;
+        padding: 20px;
+        text-align: center;
+        color: #d4af37;
+    }
+    .main {
+        text-align: center;
+        padding: 50px;
+    }
+    .card {
+        background-color: #2c2c2c;
+        color: #d4af37;
+    }
+    .card-header {
+        background-color: #1c1c1c;
+        color: #d4af37;
+        border-bottom: 1px solid #3a3a3a;
+    }
+    .form-control {
+        background-color: #1c1c1c;
+        color: #d4af37;
+        border: 1px solid #3a3a3a;
+    }
+    .btn-primary {
+        background-color: #d4af37;
+        color: #1c1c1c;
+        border: none;
+    }
+</style>
+@endsection
+
 
