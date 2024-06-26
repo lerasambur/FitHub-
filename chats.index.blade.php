@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container main">
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card">
@@ -58,4 +58,30 @@
 
 @endsection
 
-
+@section('styles')
+<style>
+    .container.main {
+        margin: auto;
+        width: 80%;
+        padding: 50px;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .card-header {
+        background-color: #3a3a3a;
+        color: #d4af37;
+    }
+    .card-body {
+        border: 1px solid #3a3a3a;
+    }
+    .card-footer {
+        background-color: #3a3a3a;
+        border-top: 1px solid #d4af37;
+    }
+    .btn-primary {
+        background-color: #d4af37;
+        color: #1c1c1c;
+    }
+</style>
+@endsection
