@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container main">
     <div class="profile-header">
         <h2>User Profile</h2>
     </div>
@@ -43,15 +43,29 @@
 
 @endsection
 
-@section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.css">
-
+@section('styles')
 <style>
+    .container.main {
+        margin: auto;
+        width: 80%;
+        text-align: center;
+        padding: 50px;
+    }
+    .profile-header {
+        background-color: #3a3a3a;
+        padding: 20px;
+        text-align: center;
+    }
+    .profile-content {
+        background-color: #2c2c2c;
+        padding: 20px;
+        border-radius: 5px;
+        color: #d4af37;
+        margin-top: 20px;
+    }
+    #calendar {
+        margin-top: 20px;
+    }
     .modal {
         display: none;
         position: fixed;
@@ -61,7 +75,6 @@
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgb(0,0,0);
         background-color: rgba(0,0,0,0.4);
         padding-top: 60px;
     }
@@ -90,6 +103,15 @@
         margin-top: 10px;
     }
 </style>
+@endsection
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.css">
 
 <script>
 $(document).ready(function() {
@@ -127,3 +149,4 @@ $(document).ready(function() {
 });
 </script>
 @endsection
+
