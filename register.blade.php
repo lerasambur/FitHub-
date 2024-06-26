@@ -222,6 +222,5 @@
         document.getElementById('user-info').style.display = role === 'user' ? 'block' : 'none';
         document.getElementById('trainer-info').style.display = role === 'trainer' ? 'block' : 'none';
     });
-</script>
-@endsection
+</
 
