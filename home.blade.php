@@ -9,7 +9,7 @@
         <p>Train, share, and achieve your goals with us.</p>
     </div>
     <div class="buttons">
-        <a href="{{ route('register') }}" class="button">Registration</a>
+        <a href="{{ route('register') }}" class="button">Register</a>
         <a href="{{ route('login') }}" class="button">Login</a>
     </div>
 </div>
