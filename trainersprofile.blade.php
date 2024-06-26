@@ -2,22 +2,17 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
+    <div class="profile-header">
+        <h2>Trainer Profile</h2>
+    </div>
+    <div class="profile-content">
+        <p><strong>Name:</strong> {{ $trainer->name }}</p>
+        <p><strong>Email:</strong> {{ $trainer->email }}</p>
+        <p><strong>Specialization:</strong> {{ $trainer->specialization }}</p>
+        <p><strong>Education:</strong> {{ $trainer->education }}</p>
+        <p><strong>Experience:</strong> {{ $trainer->experience }}</p>
+        <p><strong>Description:</strong> {{ $trainer->description }}</p>
     </div>
 </div>
 @endsection
+
