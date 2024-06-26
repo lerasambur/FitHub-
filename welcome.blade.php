@@ -1,47 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitHub</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        body {
-            background-color: #1c1c1c;
-            color: #d4af37;
-            font-family: Arial, sans-serif;
-        }
-        .header, .footer {
-            background-color: #3a3a3a;
-            padding: 20px;
-            text-align: center;
-        }
-        .main {
-            text-align: center;
-            padding: 50px;
-        }
-        .button {
-            background-color: #d4af37;
-            color: #1c1c1c;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 5px;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div class="container main">
     <div class="header">
         <h1>FitHub</h1>
     </div>
-    <div class="main">
-        <h2>Добро пожаловать на FitHub!</h2>
-        <p>Тренируйтесь, делитесь и достигайте своих целей вместе с нами.</p>
-        <a href="{{ route('register') }}" class="button">Регистрация</a>
-        <a href="{{ route('login') }}" class="button">Войти</a>
+    <div class="main-content">
+        <h2>Welcome to FitHub!</h2>
+        <p>Train, share, and achieve your goals with us.</p>
+        <div class="buttons">
+            <a href="{{ route('register') }}" class="button">Register</a>
+            <a href="{{ route('login') }}" class="button">Login</a>
+        </div>
     </div>
     <div class="footer">
-        <p>&copy; 2024 FitHub. Все права защищены.</p>
+        <p>&copy; 2024 FitHub. All rights reserved.</p>
     </div>
-</body>
-</html>
+</div>
+@endsection
+
+@section('styles')
+<style>
+    .container.main {
+        margin: auto;
+        width: 80%;
+        text-align: center;
+        padding: 50px;
+    }
+    .header {
+        background-color: #3a3a3a;
+        padding: 20px;
+        text-align: center;
+    }
+    .main-content {
+        background-color: #2c2c2c;
+        padding: 20px;
+        border-radius: 5px;
+        color: #d4af37;
+        margin-top: 20px;
+    }
+    .buttons {
+        margin-top: 20px;
+    }
+    .button {
+        background-color: #d4af37;
+        color: #1c1c1c;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    .footer {
+        background-color: #3a3a3a;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+@endsection
