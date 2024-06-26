@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container main">
     <h2>{{ $chat->title }}</h2>
     <div class="messages">
         @foreach($chat->messages as $message)
@@ -18,9 +18,11 @@
 
 @section('styles')
 <style>
-    .container {
+    .container.main {
         margin: auto;
         width: 80%;
+        text-align: center;
+        padding: 50px;
     }
     .messages {
         margin-top: 20px;
@@ -28,6 +30,7 @@
         padding: 10px;
         border-radius: 5px;
         color: #d4af37;
+        text-align: left;
     }
     .messages p {
         margin-bottom: 10px;
@@ -44,4 +47,5 @@
     }
 </style>
 @endsection
+
 
