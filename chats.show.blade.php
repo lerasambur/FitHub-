@@ -5,13 +5,17 @@
     <h2>{{ $chat->title }}</h2>
     <div class="messages">
         @foreach($chat->messages as $message)
-            <p><strong>{{ $message->user->name }}:</strong> {{ $message->body }}</p>
+            <div class="message">
+                <p><strong>{{ $message->user->name }}:</strong> {{ $message->body }}</p>
+            </div>
         @endforeach
     </div>
     <form action="{{ route('chats.messages.store', $chat->id) }}" method="POST">
         @csrf
-        <textarea name="body" required></textarea>
-        <button type="submit" class="button">Send</button>
+        <div class="message-form">
+            <textarea name="body" placeholder="Type your message..." required></textarea>
+            <button type="submit" class="button">Send</button>
+        </div>
     </form>
 </div>
 @endsection
@@ -30,22 +34,28 @@
         padding: 10px;
         border-radius: 5px;
         color: #d4af37;
-        text-align: left;
+        max-height: 400px;
+        overflow-y: scroll;
     }
-    .messages p {
+    .message {
         margin-bottom: 10px;
     }
-    form {
+    .message p {
+        margin: 5px 0;
+    }
+    .message-form {
         margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
-    form textarea {
-        width: 100%;
+    .message-form textarea {
+        width: 80%;
         padding: 10px;
-        margin-bottom: 10px;
         border-radius: 5px;
         border: 1px solid #3a3a3a;
+        resize: none;
     }
 </style>
 @endsection
-
 
