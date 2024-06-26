@@ -2,20 +2,29 @@
 
 @section('content')
 <div class="container main">
-    <h2>Create a Post</h2>
-    <form action="{{ route('posts.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="body">Body</label>
-            <textarea name="body" class="form-control" required></textarea>
-        </div>
-        <button type="submit" class="button">Submit</button>
-    </form>
+    <div class="post-header">
+        <h2>Create New Post</h2>
+    </div>
+    <div class="post-content">
+        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" required>
+            </div>
+            <div>
+                <label for="body">Body:</label>
+                <textarea name="body" id="body" rows="5" required></textarea>
+            </div>
+            <div>
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" id="image">
+            </div>
+            <button type="submit" class="button">Create Post</button>
+        </form>
+    </div>
 </div>
+
 @endsection
 
 @section('styles')
@@ -26,33 +35,35 @@
         text-align: center;
         padding: 50px;
     }
-    form {
+    .post-header {
+        background-color: #3a3a3a;
+        padding: 20px;
+        text-align: center;
+    }
+    .post-content {
+        background-color: #2c2c2c;
+        padding: 20px;
+        border-radius: 5px;
+        color: #d4af37;
         margin-top: 20px;
         text-align: left;
     }
-    form .form-group {
-        margin-bottom: 20px;
+    form {
+        margin-top: 20px;
     }
-    form label {
-        color: #d4af37;
+    label {
+        display: block;
+        margin-top: 10px;
     }
-    form input[type="text"],
-    form textarea {
+    input[type="text"], textarea {
         width: 100%;
         padding: 10px;
+        margin-bottom: 10px;
         border-radius: 5px;
         border: 1px solid #3a3a3a;
-        background-color: #2c2c2c;
-        color: #d4af37;
     }
-    form button {
-        background-color: #d4af37;
-        color: #1c1c1c;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 10px;
+    input[type="file"] {
+        margin-top: 5px;
     }
 </style>
 @endsection
-
