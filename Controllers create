@@ -4,3 +4,4 @@ php artisan make:controller TrainerController
 php artisan make:controller PostController
 php artisan make:controller VideoController
 php artisan make:controller ChatController
+php artisan make:middleware Localization
