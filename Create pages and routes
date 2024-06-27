@@ -44,6 +44,11 @@ Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.crea
 Route::post('/chats', [ChatController::class, 'store'])->name('chats.store'); 
 Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show'); 
 Route::post('/chats/{chat}/message', [ChatController::class, 'sendMessage'])->name('chats.message'); 
+
+Route::get('lang/{locale}', function ($locale) {
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
 -----------------------------------------------------------------------------------------------------------
 Explanation of routes:
 GET '/'- site Home Page.
