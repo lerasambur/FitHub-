@@ -6,11 +6,11 @@
         <h1>FitHub</h1>
     </div>
     <div class="main-content">
-        <h2>Welcome to FitHub!</h2>
-        <p>Train, share, and achieve your goals with us.</p>
+        <h2>{{ __('messages.welcome') }}</h2>
+        <p>{{ __('messages.description') }}</p>
         <div class="buttons">
-            <a href="{{ route('register') }}" class="button">Register</a>
-            <a href="{{ route('login') }}" class="button">Login</a>
+            <a href="{{ route('register') }}" class="button">{{ __('messages.register') }}</a>
+            <a href="{{ route('login') }}" class="button">{{ __('messages.login') }}</a>
         </div>
     </div>
     <div class="footer">
